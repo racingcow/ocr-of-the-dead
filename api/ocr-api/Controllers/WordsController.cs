@@ -25,7 +25,7 @@ namespace ocr_api.Controllers
         /// <param name="minLength">Words returned must have at least this many characters found in the OCR'd text</param>
         /// <returns>List of words meeting the specified criteria</returns>
         [HttpGet]
-        public IEnumerable<Word> Get(int count = 50, int minConfPct = 50, int maxConfPct = 85, int minLength = 5)
+        public IEnumerable<Word> Get([FromQuery]int count = 50, [FromQuery]int minConfPct = 50, [FromQuery]int maxConfPct = 85, [FromQuery]int minLength = 5)
         {
             return _repo.Get(count, minConfPct, maxConfPct, minLength);
         }
