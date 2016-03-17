@@ -6,31 +6,45 @@
   "tooling": {
     "defaultNamespace": "ocr_api"
   },
-
-    "dependencies": {
-        "Microsoft.AspNet.IISPlatformHandler": "1.0.0-rc1-final",
-        "Microsoft.AspNet.Mvc": "6.0.0-rc1-final",
-        "Microsoft.AspNet.Diagnostics": "1.0.0-rc1-final",
-        "Microsoft.AspNet.Server.Kestrel": "1.0.0-rc1-final",
-        "Microsoft.AspNet.StaticFiles": "1.0.0-rc1-final",
-        "Microsoft.Extensions.Configuration.FileProviderExtensions": "1.0.0-rc1-final",
-        "Microsoft.Extensions.Logging": "1.0.0-rc1-final",
-        "Microsoft.Extensions.Logging.Console": "1.0.0-rc1-final",
-        "Microsoft.Extensions.Logging.Debug": "1.0.0-rc1-final",
-        "Swashbuckle.SwaggerGen": "6.0.0-rc1-final",
-        "Swashbuckle.SwaggerUi": "6.0.0-rc1-final",
-        "Dapper": "1.50.0-beta8"
-    },
-
+  "dependencies": {
+    "Microsoft.AspNet.IISPlatformHandler": "1.0.0-rc1-final",
+    "Microsoft.AspNet.Mvc": "6.0.0-rc1-final",
+    "Microsoft.AspNet.Diagnostics": "1.0.0-rc1-final",
+    "Microsoft.AspNet.Server.Kestrel": "1.0.0-rc1-final",
+    "Microsoft.AspNet.StaticFiles": "1.0.0-rc1-final",
+    "Microsoft.Extensions.Configuration.FileProviderExtensions": "1.0.0-rc1-final",
+    "Microsoft.Extensions.Logging": "1.0.0-rc1-final",
+    "Microsoft.Extensions.Logging.Console": "1.0.0-rc1-final",
+    "Microsoft.Extensions.Logging.Debug": "1.0.0-rc1-final",
+    "Swashbuckle.SwaggerGen": "6.0.0-rc1-final",
+    "Swashbuckle.SwaggerUi": "6.0.0-rc1-final",
+    "Dapper": "1.50.0-beta8"
+  },
   "commands": {
     "web": "Microsoft.AspNet.Server.Kestrel"
   },
-
   "frameworks": {
-    "dnx451": { },
-    "dnxcore50": { }
+    "dnx451": {
+      "frameworkAssemblies": {
+        "System.Runtime.Serialization": "4.0.0.0",
+        "System.ServiceModel": "4.0.0.0"
+      }
+    },
+    "dnxcore50": {
+      "dependencies": {
+        "System.Runtime.Serialization.Primitives": "4.1.0-beta-23516",
+        "System.ServiceModel.Primitives": "4.1.0-beta-23516",
+        "System.ServiceModel.Http": "4.0.11-beta-23516",
+        "System.ServiceModel.NetTcp": "4.1.0-beta-23516",
+        "System.ServiceModel.Duplex": "4.0.1-beta-23516",
+        "System.ServiceModel.Security": "4.0.1-beta-23516",
+        "System.Net.NameResolution": "4.0.0-beta-23516",
+        "System.Net.Security": "4.0.0-beta-23516",
+        "System.Security.Principal.Windows": "4.0.0-beta-23516",
+        "System.Diagnostics.Tools": "4.0.1-beta-23516"
+      }
+    }
   },
-
   "exclude": [
     "wwwroot",
     "node_modules",

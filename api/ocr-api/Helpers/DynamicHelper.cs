@@ -18,24 +18,19 @@ namespace ocr_api.Helpers
             return string.Join(DELIMITER_OUTER.ToString(), pairs).Base64Encode();
         }
 
-        public static void KeyToProps(this string key, dynamic obj)
+        public static dynamic KeyToProps(this string key)
         {
-            var dict = (IDictionary<string, object>) obj;
+            var expando = new ExpandoObject();
+            var dict = (IDictionary<string, object>)expando;
             var pairs = key.Base64Decode().Split(DELIMITER_OUTER);
             foreach (var pair in pairs)
             {
                 var kvp = pair.Split(DELIMITER_INNER);
                 var name = kvp[0];
                 var val = kvp[1];
-                if (dict.ContainsKey(name))
-                {
-                    dict[name] = val;
-                }
-                else
-                {
-                    dict.Add(name, val);
-                }
+                dict.Add(name, val);
             }
+            return expando;
         }
     }
 }

@@ -8,7 +8,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.PlatformAbstractions;
 using ocr_api.Data;
-using ocr_api.Options;
 using Swashbuckle.SwaggerGen.Generator;
 
 namespace ocr_api
@@ -59,9 +58,10 @@ namespace ocr_api
             }
 
             services.AddOptions();
-            services.Configure<Options.Options>(Configuration);
+            services.Configure<Options.Settings>(Configuration);
 
             services.AddTransient<IWordRepository, WordRepository>();
+            services.AddTransient<IFileRepository, FileRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
