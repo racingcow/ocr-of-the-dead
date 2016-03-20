@@ -15,6 +15,11 @@ namespace ocr_api.Controllers
             _fileRepository = fileRepository;
         }
 
+        /// <summary>
+        /// Retrieve a file by its unique key
+        /// </summary>
+        /// <param name="key">The unique key of the file</param>
+        /// <returns>The file</returns>
         [HttpGet]
         public FileResult Get([FromQuery]string key)
         {
