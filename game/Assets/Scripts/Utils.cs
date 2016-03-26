@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections.Specialized;
+using System.ComponentModel;
+using UnityEngine;
 
 namespace Assets.Scripts
 {
@@ -15,6 +17,23 @@ namespace Assets.Scripts
         public static bool Boolean()
         {
             return UnityEngine.Random.value >= 0.5;
+        }
+    }
+
+    public static class Extensions
+    {
+        public static NameValueCollection ToNameValueCollection<T>(this T dynamicObject)
+        {
+            var nameValueCollection = new NameValueCollection();
+            foreach (PropertyDescriptor propertyDescriptor in TypeDescriptor.GetProperties(dynamicObject))
+            {
+                var val = propertyDescriptor.GetValue(dynamicObject);
+                if (val == null) continue;
+
+                var value = val.ToString();
+                nameValueCollection.Add(propertyDescriptor.Name, value);
+            }
+            return nameValueCollection;
         }
     }
 

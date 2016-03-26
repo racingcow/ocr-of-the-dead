@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using ocr_api.Models;
 using System.Data.SqlClient;
-using Dapper;
 using Microsoft.Extensions.OptionsModel;
+using Dapper;
+using ocr_api.Models;
 using ocr_api.Helpers;
 
 namespace ocr_api.Data
@@ -11,6 +11,7 @@ namespace ocr_api.Data
     public interface IWordRepository
     {
         Word[] Get(int count, int minConfPct, int maxConfPct, int minLength);
+        void AddCorrection(Word word);
     }
 
     public class WordRepository : IWordRepository
@@ -44,6 +45,16 @@ namespace ocr_api.Data
                 }));
 
                 return words.ToArray();
+            }
+        }
+
+        public void AddCorrection(Word word)
+        {
+            dynamic keyObj = word.FileKey.KeyToProps();
+            using (var conn = new SqlConnection(m_settings.IndexConnString))
+            {
+                conn.Execute("insert into fotnindex.dbo.formsprocessingsuggestions values (@RepoId, @BatchId, @Sequence, @FieldId, @SuggestedValue)",
+                    new { keyObj.RepoId, keyObj.BatchId, keyObj.Sequence, keyObj.FieldId, SuggestedValue = word.Text });
             }
         }
     }

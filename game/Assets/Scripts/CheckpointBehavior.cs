@@ -21,6 +21,9 @@ namespace Assets.Scripts
             {
                 foreach (var e in enemiesToTrigger)
                 {
+                    var ocrword = Words.RemoveRandom();
+                    Debug.Log(string.Format("Enemy '{0}' has word '{1}'", e.name, ocrword.Word.Text));
+                    e.OcrWord = ocrword;
                     e.enabled = true;
                 }
                 triggerEnemies = false;

@@ -20,7 +20,7 @@ namespace Assets.Scripts
             var waypointTrans = waypoints[0];
             var behavior = waypointTrans.GetComponentInChildren<CheckpointBehavior>();
             waypoint = behavior;
-            Debug.Log("Waypoint name = " + waypoint.name);
+            //Debug.Log("Waypoint name = " + waypoint.name);
         }
 
         public void Stop()
@@ -30,7 +30,7 @@ namespace Assets.Scripts
     
         public void NextWaypoint(bool loops)
         {
-            Debug.Log("NextWaypoint!");
+            //Debug.Log("NextWaypoint!");
             if (loops) waypoints.Add(waypoints[0]);
             waypoints.RemoveAt(0);
             UpdateWayPoint();

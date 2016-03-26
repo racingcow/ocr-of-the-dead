@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.OptionsModel;
 using ocr_api.Models;
 using Dapper;
+using Microsoft.AspNet.Mvc;
 using ocr_api.Helpers;
 using RasterImageService;
 
@@ -11,7 +12,7 @@ namespace ocr_api.Data
 {
     public interface IFileRepository
     {
-        byte[] GetFile(string key);
+        byte[] GetFile(string key, Rect wordBounds);
     }
 
     public class FileRepository : IFileRepository
@@ -23,7 +24,7 @@ namespace ocr_api.Data
             m_settings = dataOptionsAccessor.Value;
         }
 
-        public byte[] GetFile(string key)
+        public byte[] GetFile([FromQuery] string key, Rect wordBounds)
         {
             dynamic keyObj = key.KeyToProps();
             dynamic imageInfo = GetImageInfo(keyObj);
@@ -49,8 +50,16 @@ namespace ocr_api.Data
                 RenderingHint = hint
             };
 
+            var rect = new BoundingRectangle
+            {
+                Left = wordBounds.X,
+                Top = wordBounds.Y,
+                Width = wordBounds.W,
+                Height = wordBounds.H
+            };
+
             var svc = new RasterImageServiceClient(RasterImageServiceClient.EndpointConfiguration.RasterServiceNetHttp);
-            var result = svc.GetBatchImageAsync(param).Result;
+            var result = svc.GetBatchImageSnippetAsync(param, rect).Result;
             return result;
         }
 

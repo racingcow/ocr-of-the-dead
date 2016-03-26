@@ -59,6 +59,7 @@ namespace Assets.Scripts
         {
             if (targetedEnemy == null || Input.GetKeyDown(KeyCode.Tab)) TargetNextEnemy();
             _inputPanel.SetActive(targetedEnemy != null);
+            
             if (targetedEnemy == null)
             {
                 if (!CameraMovement.cameraMovement.moving) CameraMovement.cameraMovement.NextWaypoint(false);
@@ -72,6 +73,13 @@ namespace Assets.Scripts
             var inputPanelTrans = _inputPanel.GetComponent<RectTransform>();
             var panelPos = Camera.main.WorldToScreenPoint(enemyPos);
             inputPanelTrans.position = panelPos;
+
+            var img = _inputPanel.GetComponentInChildren<RawImage>();
+            if (targetedEnemy.OcrWord != null)
+            {
+                Debug.Log(string.Format("Targeting enemy '{0}' with word '{1}'", targetedEnemy.name, targetedEnemy.OcrWord.Word.Text));
+                img.texture = targetedEnemy.OcrWord.Snippet;
+            }
 
             //input box must always be visible
             var corners = new Vector3[4];
@@ -87,7 +95,17 @@ namespace Assets.Scripts
 
             if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
             {
-                targetedEnemy.Die(_inputField.text);
+                if (WordFilter.Contains(_inputField.text))
+                {
+                    // show filter graphic on bad word
+                    var naughty = GetComponentsInChildren<RawImage>().Single(i => i.name == "Naughty");
+                    naughty.GetComponent<Animation>().Play();
+                }
+                else
+                {
+                    // kill enemy and send correction to server
+                    targetedEnemy.Die(_inputField.text);
+                }
             }
         }
     }

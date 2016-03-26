@@ -29,5 +29,15 @@ namespace ocr_api.Controllers
         {
             return _repo.Get(count, minConfPct, maxConfPct, minLength);
         }
+
+        /// <summary>
+        /// AddCorrection a word with corrected text
+        /// </summary>
+        /// <param name="word">Updated word</param>
+        [HttpPost]
+        public void Post([FromBody]Word word)
+        {
+            _repo.AddCorrection(word);
+        }
     }
 }
