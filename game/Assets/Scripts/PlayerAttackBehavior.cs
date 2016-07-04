@@ -1,12 +1,15 @@
 ﻿using System.Linq;
+
 using UnityEngine;
 using UnityEngine.UI;
+
+using Racingcow.OcrOfTheDead.Views;
 
 namespace Assets.Scripts
 {
     public class PlayerAttackBehavior : MonoBehaviour
     {
-        public Enemy targetedEnemy;
+        public EnemyView targetedEnemy;
         private GameObject _inputPanel;
         private InputField _inputField;
 

@@ -1,12 +1,17 @@
 ﻿using System;
-using System.Collections;
+
 using UnityEngine;
 using UnityEngine.UI;
+using strange.extensions.mediation.impl;
+using strange.extensions.signal.impl;
+using Assets.Scripts;
 
-namespace Assets.Scripts
+namespace Racingcow.OcrOfTheDead.Views
 {
-    public class Enemy : MonoBehaviour
+    public class EnemyView : View
     {
+        public Signal clawSignal = new Signal();
+
         enum States
         {
             Wait = 0,
@@ -46,8 +51,10 @@ namespace Assets.Scripts
             _playerAttack.TargetNextEnemy();
         }
 
-        void Awake()
+        protected override void Awake()
         {
+            base.Awake();
+
             _nav = GetComponent<NavMeshAgent>();
             _player = GameObject.FindGameObjectWithTag("Player").transform;
             _animator = GetComponent<Animator>();
@@ -77,15 +84,19 @@ namespace Assets.Scripts
 
         public void OnAttack()
         {
-            var oldHealth = PlayerHealth.Instance.Health;
-            var newHealth = oldHealth - damage;
-            //Debug.Log(string.Format("{0} attacked! Health went from {1} to {2}", name, oldHealth, newHealth));
-            PlayerHealth.Instance.Health = newHealth;
+            Debug.Log("Enemy view raising claw signal");
+            clawSignal.Dispatch();
 
+            //var oldHealth = PlayerHealth.Instance.Health;
+            //var newHealth = oldHealth - damage;
+            ////Debug.Log(string.Format("{0} attacked! Health went from {1} to {2}", name, oldHealth, newHealth));
+            //PlayerHealth.Instance.Health = newHealth;
+
+            // TODO: ADD THIS BACK
             // show some red tint when health is low
-            var blood = GameObject.FindGameObjectWithTag("Blood");
-            var img = blood.GetComponent<RawImage>();
-            img.color = new Color(img.color.r, img.color.g, img.color.b, Math.Max((1f - (newHealth / 100f)) - .3f, 0f));
+            //var blood = GameObject.FindGameObjectWithTag("Blood");
+            //var img = blood.GetComponent<RawImage>();
+            //img.color = new Color(img.color.r, img.color.g, img.color.b, Math.Max((1f - (newHealth / 100f)) - .3f, 0f));
         }
 
         public void OnDead()

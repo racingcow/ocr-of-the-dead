@@ -13,8 +13,6 @@ namespace Assets.Scripts
         public float rotateSpeed;
         public bool moving = true;
 
-        private PlayerHealth _playerHealth;
-
         private void UpdateWayPoint()
         {
             var waypointTrans = waypoints[0];
@@ -41,7 +39,6 @@ namespace Assets.Scripts
         void Awake()
         {
             cameraMovement = this;
-            _playerHealth = GetComponentInChildren<PlayerHealth>();
 
             //waypoints[0].LookAt(transform.position);
             //for (var x = 1; x < waypoints.Count; x++)
@@ -56,8 +53,6 @@ namespace Assets.Scripts
         {
             if (waypoints == null) throw new NullReferenceException("waypoints is null. Add some through designer.");
             if (waypoints.Count == 0) throw new NullReferenceException("No waypoints exist. Add some through designer.");
-            if (_playerHealth == null) throw new NullReferenceException("_playerHealth is null.");
-            if (waypoints.Count == 0 || _playerHealth.IsDying) return;
             if (!moving) return;
 
             var targetDirection = waypoints[0].position - transform.position;

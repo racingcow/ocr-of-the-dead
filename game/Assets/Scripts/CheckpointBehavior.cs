@@ -1,7 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+
 using UnityEngine;
+
+using Racingcow.OcrOfTheDead.Views;
 
 namespace Assets.Scripts
 {
@@ -11,7 +14,7 @@ namespace Assets.Scripts
         public bool loops = false;
         public bool triggerEnemies;
         public bool waitForEnemiesToDie;
-        public List<Enemy> enemiesToTrigger;
+        public List<EnemyView> enemiesToTrigger;
 
         private void OnTriggerEnter(Collider col)
         {
