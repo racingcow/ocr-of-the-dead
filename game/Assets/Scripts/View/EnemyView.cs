@@ -85,18 +85,7 @@ namespace Racingcow.OcrOfTheDead.Views
         public void OnAttack()
         {
             Debug.Log("Enemy view raising claw signal");
-            clawSignal.Dispatch();
-
-            //var oldHealth = PlayerHealth.Instance.Health;
-            //var newHealth = oldHealth - damage;
-            ////Debug.Log(string.Format("{0} attacked! Health went from {1} to {2}", name, oldHealth, newHealth));
-            //PlayerHealth.Instance.Health = newHealth;
-
-            // TODO: ADD THIS BACK
-            // show some red tint when health is low
-            //var blood = GameObject.FindGameObjectWithTag("Blood");
-            //var img = blood.GetComponent<RawImage>();
-            //img.color = new Color(img.color.r, img.color.g, img.color.b, Math.Max((1f - (newHealth / 100f)) - .3f, 0f));
+            clawSignal.Dispatch();            
         }
 
         public void OnDead()

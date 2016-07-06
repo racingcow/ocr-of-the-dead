@@ -56,6 +56,7 @@ namespace Racingcow.OcrOfTheDead
 
             mediationBinder.Bind<EnemyView>().To<EnemyMediator>();
             mediationBinder.Bind<PlayerHealthView>().To<PlayerHealthMediator>();
+            mediationBinder.Bind<BloodView>().To<BloodMediator>();
         }
     }
 }
