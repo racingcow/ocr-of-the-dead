@@ -2,6 +2,6 @@
 {
     public class AttackInfo
     {
-        public int DamageAmount { get; set; }
+        public string EnemyName { get; set; }
     }
 }

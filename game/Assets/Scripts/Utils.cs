@@ -12,13 +12,13 @@ namespace Assets.Scripts
         }
     }
 
-    public static class Random
-    {
-        public static bool Boolean()
-        {
-            return UnityEngine.Random.value >= 0.5;
-        }
-    }
+    //public class Random
+    //{
+    //    public static bool Boolean()
+    //    {
+    //        return UnityEngine.Random.value >= 0.5;
+    //    }
+    //}
 
     public static class Extensions
     {

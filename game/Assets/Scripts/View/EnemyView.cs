@@ -1,10 +1,9 @@
 ﻿using System;
-
 using UnityEngine;
-using UnityEngine.UI;
 using strange.extensions.mediation.impl;
 using strange.extensions.signal.impl;
 using Assets.Scripts;
+using Racingcow.OcrOfTheDead.Enums;
 
 namespace Racingcow.OcrOfTheDead.Views
 {
@@ -12,21 +11,12 @@ namespace Racingcow.OcrOfTheDead.Views
     {
         public Signal clawSignal = new Signal();
 
-        enum States
-        {
-            Wait = 0,
-            Walk = 1,
-            Attack = 2,
-            Dying = 3,
-            Dead = 4
-        }
-
         public float attackDistance = 3f;
 
         private NavMeshAgent _nav;
         private Transform _player;
         private Animator _animator;
-        private PlayerAttackBehavior _playerAttack;
+        private ReticleView _reticle; // TODO: should I be here?
         
         private const float WALK_ANIMATION_LENGTH = 1.29f;
 
@@ -34,21 +24,29 @@ namespace Racingcow.OcrOfTheDead.Views
         public bool dead = false;
         public float attackSpeed = 0.5f;
         public int damage = 10;
-        
-        public OcrWord OcrWord { get; set; }
+        public int waypointSequence;
 
-        public void Die(string suggestedWord)
+        //public OcrWord OcrWord { get; set; }
+        public string WaypointName { get; set; }
+
+        public void Persue()
         {
-            OcrWord.Word.Text = suggestedWord;
-            Words.AddCorrection(OcrWord);
+            Debug.Log(string.Format("Enemy '{0}' just got aggro'd", name));
+            _nav.enabled = true;
+        }
+
+        public void Die()
+        {
+            //OcrWord.Word.Text = suggestedWord;
+            //Words.AddCorrection(OcrWord);
 
             dying = true;
 
-            _animator.SetInteger("State", (int)States.Dying);
+            _animator.SetInteger("State", (int)EnemyStates.Die);
             _animator.SetInteger("FallDirection", UnityEngine.Random.Range(0, 3));
 
             _nav.enabled = false;
-            _playerAttack.TargetNextEnemy();
+            //_reticle.TargetNextEnemy();
         }
 
         protected override void Awake()
@@ -56,9 +54,11 @@ namespace Racingcow.OcrOfTheDead.Views
             base.Awake();
 
             _nav = GetComponent<NavMeshAgent>();
+            _nav.enabled = false;
+
             _player = GameObject.FindGameObjectWithTag("Player").transform;
             _animator = GetComponent<Animator>();
-            _playerAttack = FindObjectOfType<PlayerAttackBehavior>();
+            _reticle = FindObjectOfType<ReticleView>(); //TODO: Don't globally find me!
             UnityEngine.Random.seed = DateTime.Now.Millisecond;
 
             var walkOffset = UnityEngine.Random.value*WALK_ANIMATION_LENGTH;
@@ -76,7 +76,18 @@ namespace Racingcow.OcrOfTheDead.Views
             var zombiePos = transform.position;
             var curDistance = Vector3.Distance(playerPos, zombiePos);
 
-            var state = (int) (curDistance <= attackDistance ? States.Attack : States.Walk);
+            var state = (int) EnemyStates.Wait;
+            if (_nav.enabled)
+            {
+                if (curDistance <= attackDistance)
+                {
+                    state = (int) EnemyStates.Attack;
+                }
+                else
+                {
+                    state = (int) EnemyStates.Walk;
+                }
+            }
             //Debug.Log(string.Format("curDistance = {0}, attackDistance = {1}, state = {2}", curDistance, attackDistance, state));
 
             _animator.SetInteger("State", state);

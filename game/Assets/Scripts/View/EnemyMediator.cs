@@ -7,27 +7,50 @@ namespace Racingcow.OcrOfTheDead.Views
     public class EnemyMediator : Mediator
     {
         [Inject]
-        public EnemyView View { get; set; }
+        public EnemyView EnemyView { get; set; }
 
         [Inject]
-        public AttackedSignal AttackedSignal { get; set; }
+        public EnemyAttacked EnemyAttacked { get; set; }
+
+        [Inject]
+        public EnemyPersuing EnemyPersuing { get; set; }
+
+        [Inject]
+        public EnemyDying EnemyDying { get; set; }
 
         public override void OnRegister()
         {
-            View.clawSignal.AddListener(OnClaw);
-            Debug.Log("Enemy mediator started listening to claw signal");
+            EnemyView.clawSignal.AddListener(OnClaw);
+            EnemyPersuing.AddListener(OnEnemyPersuing);
+            EnemyDying.AddListener(OnEnemyDying);
         }
 
         public override void OnRemove()
         {
-            View.clawSignal.RemoveListener(OnClaw);
-            Debug.Log("Enemy mediator stopped listening to claw signal");
+            EnemyDying.RemoveListener(OnEnemyDying);
+            EnemyPersuing.RemoveListener(OnEnemyPersuing);
+            EnemyView.clawSignal.RemoveListener(OnClaw);
+        }
+
+        private void OnEnemyDying(EnemyInfo info)
+        {
+            if (info.Name != EnemyView.name) return;
+            EnemyView.Die();
+        }
+
+        private void OnEnemyPersuing(EnemyInfo info)
+        {
+            if (info.Name != EnemyView.name) return;
+            EnemyView.Persue();
         }
 
         private void OnClaw()
         {
-            Debug.Log("Enemy mediator raising attack signal");
-            AttackedSignal.Dispatch(new AttackInfo { DamageAmount = View.damage });
+            Debug.Log("EnemyMediator raising EnemyAttacked");
+            EnemyAttacked.Dispatch(new AttackInfo
+            {
+                EnemyName = EnemyView.name
+            });
         }
     }
 }

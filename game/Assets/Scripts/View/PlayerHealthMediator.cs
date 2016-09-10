@@ -9,16 +9,21 @@ namespace Racingcow.OcrOfTheDead.Views
         public PlayerHealthView View { get; set; }
 
         [Inject]
-        public HealthChangedSignal HealthChangedSignal { get; set; }
+        public PlayerHealthChanged PlayerHealthChanged { get; set; }
 
         public override void OnRegister()
         {
-            HealthChangedSignal.AddListener(OnHealthChanged);
+            PlayerHealthChanged.AddListener(OnHealthChanged);
         }
 
-        private void OnHealthChanged(ValueChangeInfo changeInfo)
+        public override void OnRemove()
         {
-            View.UpdateHealth(changeInfo.NewValue);
+            PlayerHealthChanged.RemoveListener(OnHealthChanged);
+        }
+
+        private void OnHealthChanged(HealthInfo health)
+        {
+            View.UpdateHealth(health.NewHealth);
         }
     }
 }

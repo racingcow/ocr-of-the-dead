@@ -35,7 +35,7 @@
  * The MediationBinder quite simply Binds two (or more) classes. The Key
  * is the View class, the Value is one or more Mediators. Whenever the
  * View shows up, a corresponding Mediator joins it to buffer
- * View from app. The View doesn't know about the Mediator, nor
+ * View from app. The EnemyView doesn't know about the Mediator, nor
  * about the app beyond it. It simply establishes its API and waits
  * tp be told what to do. The Mediator, on the other hand, is allowed
  * to know quite a lot about the View and the app. It can be injected,

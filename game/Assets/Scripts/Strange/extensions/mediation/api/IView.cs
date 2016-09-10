@@ -19,7 +19,7 @@
  * 
  * Monobehaviours must implement this interface in order to be injectable.
  * 
- * To contact the Context, the View must be able to find it. View handles this
+ * To contact the Context, the View must be able to find it. EnemyView handles this
  * with bubbling.
  */
 
