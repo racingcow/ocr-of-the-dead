@@ -2,7 +2,7 @@
 
 namespace Racingcow.OcrOfTheDead.Signals
 {
-    public class WaypointChanged : Signal<WaypointInfo>
+    public class WaypointChanged : Signal<>
     {
     }
 }

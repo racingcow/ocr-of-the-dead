@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Racingcow.OcrOfTheDead.Signals;
 
 namespace Racingcow.OcrOfTheDead.Models
 {
@@ -32,6 +33,7 @@ namespace Racingcow.OcrOfTheDead.Models
         public void MoveNext()
         {
             _current = _current == null ? First : _current.Next;
+            WaypointChanged.Dispatch();
         }
     }
 }
