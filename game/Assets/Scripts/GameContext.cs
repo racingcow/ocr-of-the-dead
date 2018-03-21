@@ -100,7 +100,8 @@ namespace Racingcow.OcrOfTheDead
             injectionBinder.Bind<IEnemyList>().To<EnemyList>();
             injectionBinder.Bind<IWaypoint>().To<Waypoint>();
             injectionBinder.Bind<IEnemy>().To<Enemy>();
-            injectionBinder.Bind<IWordsSource>().To<FileWordSource>();
+            //injectionBinder.Bind<IWordsSource>().To<FileWordSource>();
+            injectionBinder.Bind<IWordsSource>().To<WebWordSource>();
 
             // What logic should happen in response to signals coming from views / mediators?
             // Command names are chosen from perspective of player (i.e. ReceiveDamage is player receiving damage from something else)

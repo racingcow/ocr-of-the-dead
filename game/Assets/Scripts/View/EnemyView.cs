@@ -13,7 +13,7 @@ namespace Racingcow.OcrOfTheDead.Views
 
         public float attackDistance = 3f;
 
-        private NavMeshAgent _nav;
+        private UnityEngine.AI.NavMeshAgent _nav;
         private Transform _player;
         private Animator _animator;
         private ReticleView _reticle; // TODO: should I be here?
@@ -53,7 +53,7 @@ namespace Racingcow.OcrOfTheDead.Views
         {
             base.Awake();
 
-            _nav = GetComponent<NavMeshAgent>();
+            _nav = GetComponent<UnityEngine.AI.NavMeshAgent>();
             _nav.enabled = false;
 
             _player = GameObject.FindGameObjectWithTag("Player").transform;
